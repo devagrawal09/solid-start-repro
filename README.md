@@ -1,30 +1,15 @@
-# SolidStart
+# SolidStart Repros
 
-Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
+## Nested Cache Redirect
 
-## Creating a project
+When a `cache` server function calls another `cache` server function, any redirects thrown inside the inner function are ignored an `undefined` is returned.
 
-```bash
-# create a new project in the current directory
-npm init solid@latest
+### Repro
 
-# create a new project in my-app
-npm init solid@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-Solid apps are built with _presets_, which optimise your project for deployment to different environments.
-
-By default, `npm run build` will generate a Node app that you can run with `npm start`. To use a different preset, add it to the `devDependencies` in `package.json` and specify in your `app.config.js`.
+1. Run this project
+2. See the generated number. When the number is less than 0.5 the server throws a redirect which gets ignored.
+![alt text](image.png)
+![alt text](image-1.png)
+3. Uncomment line 36 and comment line 39 in `src/routes/index.tsx`.
+4. This time the redirect gets followed since it's no longer nested.
+![alt text](image-2.png)
